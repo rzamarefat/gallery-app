@@ -1,6 +1,7 @@
 const initialState = {
     "images": [],
-    "singleChosenImg": null
+    "singleChosenImg": null,
+    "chosenDescription": ""
 }
 
 

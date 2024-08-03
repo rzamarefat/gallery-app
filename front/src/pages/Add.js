@@ -1,24 +1,49 @@
-import React, { useState } from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-
+import axios from 'axios';
 import Navbar from "../components/Navbar"
+import { setChosenDesc } from "../redux/actions";
 
 import {setSingleChosenImage} from "../redux/actions"
 
 const Add = () => {
-    const [file, setFile] = useState();
     const dispatch = useDispatch()
     const singleChosenImage = useSelector(state => state.singleChosenImage)
+    const chosenDescription = useSelector(state => state.chosenDescription)
 
-    function handleFileChange(e) {
+
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // dispatch(setSingleChosenImage(URL.createObjectURL(file)));
-            setFile(URL.createObjectURL(e.target.files[0]));
+            dispatch(setSingleChosenImage(e.target.files[0]));
         }
     }
 
-    console.log(file)
+    const handleDescriptionChange = (e) => {
+        dispatch(setChosenDesc(e.target.value))
+    }
+
+    const handleImageAdd = async (e) => {
+        e.preventDefault();
+    
+        const formData = new FormData();
+        formData.append('image', singleChosenImage);
+        formData.append('description', chosenDescription);
+    
+        try {
+          const response = await axios.post('http://localhost:5000/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+    };
+
+
+
 
     return (
         <>
@@ -32,17 +57,16 @@ const Add = () => {
                     <input type="file" accept="image/png, image/jpeg" class="form-control" multiple onChange={handleFileChange} />
                 </div>
 
-                <hr/>
+                {/* <img scr={file} className="img-thumbnail" alt="Preview"  style={{ maxWidth: '150px', maxHeight: '150px' }}></img> */}
 
-                <img scr={file} className="img-thumbnail" alt="Preview"  style={{ maxWidth: '150px', maxHeight: '150px' }}></img>
-
-                <form>
+                <form onSubmit={handleImageAdd}>
                     <div class="form-group">
                         <label for="exampleTextarea">Description</label>
-                        <textarea class="form-control" id="exampleTextarea" rows="5"></textarea>
+                        <textarea class="form-control" id="imageDescription" rows="5" onChange={handleDescriptionChange} value={chosenDescription} placeholder="Once upon a time ... "></textarea>
                     </div>
+                    <button type="submit" class="btn btn-dark my-3 ">Add</button>
                 </form>
-                <button type="submit" class="btn btn-dark my-3">Add</button>
+                
             </div>
         </>
     )
