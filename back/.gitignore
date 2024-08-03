@@ -1,1 +1,3 @@
 uploads
+.ckpts
+gallery/__pycache__

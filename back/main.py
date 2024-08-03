@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 import base64
 from flask_cors import CORS
+from gallery import Analyzer, TasksNames
 
 app = Flask(__name__)
 
@@ -48,7 +49,8 @@ def upload_file():
         return jsonify({'error': 'No file or text provided'}), 400
 
     file = request.files['image']
-    text = request.form['description']
+    description = request.form['description']
+    print("===============>", description)
 
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
