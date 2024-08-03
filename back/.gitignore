@@ -1,3 +1,4 @@
 uploads
 .ckpts
 gallery/__pycache__
+.env
