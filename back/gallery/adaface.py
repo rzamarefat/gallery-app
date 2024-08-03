@@ -4,11 +4,13 @@ import gdown
 import os
 
 class AdaFace:
-    def __init__(self, backbone_name, device):
+    def __init__(self, device):
         self._device = device
-        self._backbone_name = backbone_name
 
         os.makedirs(os.path.join(os.getcwd(), ".ckpts"), exist_ok=True)
+        
+
+        self._backbone_name = "ir_101_webface_12m"
 
         if self._backbone_name == "ir_101_webface_12m":
             arch_type = "ir_50"
