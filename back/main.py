@@ -64,4 +64,14 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+
+    import cv2
+    analyser = Analyzer()
+
+    img = cv2.imread(r"C:\Users\ASUS\Desktop\github_projects\gallery\gallery-app\back\uploads\portrait-of-a-smiling-senior-man-isolated-on-white-background-man-standing-with-his-arms-crossed-looking-at-camera-JLPSF17919.jpg")
+    data = {
+        "image": img,
+        "description": "Once upon a time"
+    }
+    analyser(data, task_name=TasksNames.ADD_TO_GALLERY)

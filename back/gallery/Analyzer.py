@@ -1,4 +1,5 @@
 from .FaceDetector import FaceDetector
+from .TasksNames import TasksNames
 
 class Analyzer:
     def __init__(self) -> None:
@@ -13,5 +14,13 @@ class Analyzer:
         5. image database
         """
 
-    def __call__(self, task_name):
-        pass
+    def _add_to_gallery(self, image, description):
+        face_detection_result = self._face_detector(image)
+        
+
+    def __call__(self, data, task_name):
+        image = data["image"]
+        description = data["description"]
+
+        if task_name == TasksNames.ADD_TO_GALLERY:
+            self._add_to_gallery(image, description)
