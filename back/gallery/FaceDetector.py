@@ -1,11 +1,10 @@
 from ultralytics import YOLO
 import gdown
 import os
-import torch
 from .face_alignment.mtcnn_pytorch.src.align_trans import warp_and_crop_face, get_reference_facial_points
 
 class FaceDetector:
-    def __init__(self):
+    def __init__(self, device):
         self._face_det_ckpt_path = os.path.join(os.getcwd(), ".ckpts", "yolov8n-face.pt")
 
         if not(os.path.isfile(self._face_det_ckpt_path)):
@@ -23,7 +22,7 @@ class FaceDetector:
             exit()
 
 
-        self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        self._device = device
     
     def _get_faces(sel, image, box, landmark):
         
@@ -90,16 +89,12 @@ class FaceDetector:
         return result
     
     def __call__(self, img):
-        results = self._face_det_model.predict(img, device=self._device)
+        results = self._face_det_model.predict(img, device=self._device, verbose=False)
         boxes = results[0].boxes
         landmarks = results[0].keypoints
 
         if len(boxes) == 0:
-
             return None
         else:
             result = self._process_bboxes_n_landmakes(img, boxes, landmarks, find_largest_box=False)
-
             return result
-    
-    
