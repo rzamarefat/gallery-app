@@ -1,7 +1,8 @@
 const initialState = {
     "images": [],
     "singleChosenImg": null,
-    "chosenDescription": ""
+    "chosenDescription": "",
+    "extractedFaceBoxes": []
 }
 
 

@@ -2,9 +2,7 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import axios from 'axios';
 import Navbar from "../components/Navbar"
-import { setChosenDesc } from "../redux/actions";
-
-import {setSingleChosenImage} from "../redux/actions"
+import { setChosenDesc, setExtractedFaceBoxes, setSingleChosenImage } from "../redux/actions";
 
 const Add = () => {
     const dispatch = useDispatch()
@@ -36,7 +34,7 @@ const Add = () => {
               'Content-Type': 'multipart/form-data'
             }
           });
-          console.log(response.data);
+          dispatch(setExtractedFaceBoxes(response.data.boxes))
         } catch (error) {
           console.error('Error uploading file:', error);
         }

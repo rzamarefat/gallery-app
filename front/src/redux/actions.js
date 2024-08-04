@@ -1,6 +1,7 @@
 import {SET_IMAGES,
         SET_SINGLE_CHOSEN_IMG,
-        SET_CHOSEN_IMG_DESC
+        SET_CHOSEN_IMG_DESC,
+        SET_EXTRACTED_FACE_BOXES
         } 
         from './actionTypes'
 
@@ -23,5 +24,12 @@ export const setChosenDesc = (text) => {
     return {
         type: SET_CHOSEN_IMG_DESC,
         payload: text
+    }
+}
+
+export const setExtractedFaceBoxes = (faces) => {
+    return {
+        type: SET_EXTRACTED_FACE_BOXES,
+        payload: faces
     }
 }

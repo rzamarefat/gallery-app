@@ -19,7 +19,17 @@ class ElasticHandler:
             print("Could not connect to Elasticsearch")
             exit()
 
-        self._mapping = {
+        self._mapping_face = {
+            "mappings":{
+                "properties":{
+                    "embedding":{
+                        "type": "dense_vector",
+                        "dims": 512
+                    }
+                }
+            }
+        }
+        self._mapping_text = {
             "mappings":{
                 "properties":{
                     "embedding":{
@@ -30,16 +40,23 @@ class ElasticHandler:
             }
         }
 
+        self._index_name_face = "gallery-index-face"
+        self._index_name_text = "gallery-index-text"
+        if not self._es.indices.exists(index=self._index_name_face):
+            self._es.indices.create(index=self._index_name_face, body=self._mapping_face)
+        if not self._es.indices.exists(index=self._index_name_text):
+            self._es.indices.create(index=self._index_name_text, body=self._mapping_text)
+            
 
-        self._index_name = "gallery-index"
-        if not self._es.indices.exists(index=self._index_name):
-            self._es.indices.create(index=self._index_name, body=self._mapping)
-
-    def push_index(self, index_name, index_id, embedding):
+    def push_index(self, index_id, embedding, mode):
         document = {
-            "embedding": embedding
+                "embedding": embedding
         }
-        response = self._es.index(index=index_name, id=index_id, document=document)
+        if mode == "text":    
+            response = self._es.index(index=self._index_name_text, id=index_id, document=document)
+        elif mode == "face":
+            response = self._es.index(index=self._index_name_face, id=index_id, document=document)
+                
         return response
 
     def query_index(self):

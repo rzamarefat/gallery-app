@@ -4,6 +4,9 @@ import os
 import base64
 from flask_cors import CORS
 from gallery import Analyzer, TasksNames
+import cv2
+
+
 
 app = Flask(__name__)
 
@@ -14,7 +17,11 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-IMAGE_DIR = r"C:\Users\ASUS\Desktop\github_projects\gallery\gallery-app\test_images"
+# IMAGE_DIR = r"C:\Users\ASUS\Desktop\github_projects\gallery\gallery-app\test_images"
+IMAGE_DIR = app.config['UPLOAD_FOLDER']
+
+
+analyzer = Analyzer()
 
 def get_images():
     images = []
@@ -50,8 +57,7 @@ def upload_file():
 
     file = request.files['image']
     description = request.form['description']
-    print("===============>", description)
-
+    
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
@@ -59,19 +65,30 @@ def upload_file():
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(file_path)
 
-    return jsonify({'filename': filename})
+    uploaded_img = cv2.imread(file_path)
+    data_to_analyze = {
+        "image": uploaded_img,
+        "description": description
+    }
+    preprocessed_data = analyzer(data=data_to_analyze, task_name=TasksNames.DO_PREPROCESSING)
+    print("====================", preprocessed_data)
+
+    return jsonify({
+        'id': preprocessed_data["id"],
+        "boxes": preprocessed_data["boxes"]
+        })
 
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    app.run(debug=True)
 
-    import cv2
-    analyser = Analyzer()
+    # import cv2
+    
 
-    img = cv2.imread(r"C:\Users\ASUS\Desktop\github_projects\gallery\gallery-app\back\uploads\portrait-of-a-smiling-senior-man-isolated-on-white-background-man-standing-with-his-arms-crossed-looking-at-camera-JLPSF17919.jpg")
-    data = {
-        "image": img,
-        "description": "Once upon a time"
-    }
-    analyser(data, task_name=TasksNames.ADD_TO_GALLERY)
+    # img = cv2.imread(r"C:\Users\ASUS\Desktop\github_projects\gallery\gallery-app\test_images\FullSizeRender-copy.jpg")
+    # data = {
+    #     "image": img,
+    #     "description": "Once upon a time"
+    # }
+    # analyzer(data, task_name=TasksNames.ADD_TO_GALLERY)
