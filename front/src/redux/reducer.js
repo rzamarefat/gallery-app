@@ -1,6 +1,7 @@
 import initialState from "./initiaState"
 import { SET_CHOSEN_IMG_DESC, SET_EXTRACTED_FACE_BOXES, SET_IMAGES,
-        SET_SINGLE_CHOSEN_IMG
+        SET_SINGLE_CHOSEN_IMG,
+        SET_SINGLE_CHOSEN_IMG_FILE
          } 
          from "./actionTypes";
 
@@ -14,7 +15,11 @@ const reducer = (state = initialState, action) => {
 
         case SET_SINGLE_CHOSEN_IMG:
             return {
-                ...state, singleChosenImage: action.payload
+                ...state, singleChosenImg: action.payload
+            }
+        case SET_SINGLE_CHOSEN_IMG_FILE:
+            return {
+                ...state, singleChosenImgFile: action.payload
             }
         
         case SET_CHOSEN_IMG_DESC:
@@ -25,6 +30,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, extractedFaceBoxes: action.payload
             }
+
+            
 
         default:
             return state;
