@@ -71,12 +71,7 @@ def upload_file():
         "description": description
     }
     preprocessed_data = analyzer(data=data_to_analyze, task_name=TasksNames.DO_PREPROCESSING)
-    print("====================", preprocessed_data)
-
-    return jsonify({
-        'id': preprocessed_data["id"],
-        "boxes": preprocessed_data["boxes"]
-        })
+    return jsonify([{"data": f, "id":preprocessed_data["id"]} for f in preprocessed_data["faces"]])
 
 
 

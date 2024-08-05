@@ -51,7 +51,9 @@ const Add = () => {
             }
           });
           
-          dispatch(setExtractedFaceBoxes(response.data.boxes))
+        console.log(response)
+
+          dispatch(setExtractedFaceBoxes(response.data))
           dispatch(switchLoader(false))
           dispatch(setPreprocessingStatus(true))
         } catch (error) {
@@ -99,20 +101,16 @@ const Add = () => {
 
 
                 {loaderStatus && !isPreprocessingDone && 
-                                
                                 <div className="d-flex justify-content-center p-5">
                                 <Loader/>   
                                 </div>
                         }
 
                 {isPreprocessingDone && <div className="row">
-                <Verification/>
+                    <Verification/>
                 </div>}
                     
-            </div>
-
-
-            
+            </div> 
         </>
     )
 }

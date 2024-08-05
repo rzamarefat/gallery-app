@@ -8,7 +8,7 @@ const Image = ({image}) => {
     return (
         <>
             <div class="col-md-2">
-                <img src={`data:image/jpeg;base64,${image.data}`} class="img-thumbnail fixed-size-img my-1"></img>
+                <img src={`data:image/jpeg;base64,${image.data}`} className="img-thumbnail fixed-size-img my-1"></img>
             </div>
         </>
     )
