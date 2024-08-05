@@ -3,7 +3,9 @@ const initialState = {
     "singleChosenImg": null,
     "singleChosenImgFile": null,
     "chosenDescription": "",
-    "extractedFaceBoxes": []
+    "extractedFaceBoxes": [],
+    "loaderStatus": false,
+    "isPreprocessingDone": false,
 }
 
 

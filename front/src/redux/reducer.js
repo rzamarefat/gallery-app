@@ -1,8 +1,10 @@
 import initialState from "./initiaState"
 import { SET_CHOSEN_IMG_DESC, SET_EXTRACTED_FACE_BOXES, SET_IMAGES,
         SET_SINGLE_CHOSEN_IMG,
-        SET_SINGLE_CHOSEN_IMG_FILE
-         } 
+        SET_SINGLE_CHOSEN_IMG_FILE,
+        SWITCH_LOADER,
+        SET_PREPROCESSING_STATUS
+        } 
          from "./actionTypes";
 
 
@@ -30,6 +32,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state, extractedFaceBoxes: action.payload
             }
+        case SWITCH_LOADER:
+            return {
+                ...state, loaderStatus: action.payload
+            }
+        case SET_PREPROCESSING_STATUS:
+            return {
+                ...state, isPreprocessingDone: action.payload
+            }
+
 
             
 

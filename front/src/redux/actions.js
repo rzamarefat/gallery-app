@@ -2,7 +2,9 @@ import {SET_IMAGES,
         SET_SINGLE_CHOSEN_IMG,
         SET_CHOSEN_IMG_DESC,
         SET_EXTRACTED_FACE_BOXES,
-        SET_SINGLE_CHOSEN_IMG_FILE
+        SET_SINGLE_CHOSEN_IMG_FILE,
+        SWITCH_LOADER,
+        SET_PREPROCESSING_STATUS,
         } 
         from './actionTypes'
 
@@ -42,6 +44,24 @@ export const setExtractedFaceBoxes = (faces) => {
         payload: faces
     }
 }
+
+export const switchLoader = (status) => {
+    return {
+        type: SWITCH_LOADER,
+        payload: status
+    }
+}
+
+
+export const setPreprocessingStatus = (status) => {
+    return {
+        type: SET_PREPROCESSING_STATUS,
+        payload: status
+    }
+}
+
+
+
 
 
 
